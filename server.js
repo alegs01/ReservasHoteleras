@@ -1,22 +1,19 @@
 const express = require("express");
-const dotenv = require("dotenv");
-const reservaRoutes = require("./routes/reservaRoutes");
-const swaggerDocs = require("./swagger");
-const PORT = process.env.PORT || 3000;
+const cors = require("cors");
+const swaggerDocs = require("./swaggerDocs"); // Importa la configuración de Swagger
+
+require("dotenv").config();
+const port = process.env.PORT || 3000;
+
 const app = express();
 
-dotenv.config();
-
+app.use(cors());
 app.use(express.json());
 
-app.use("/api", reservaRoutes);
+// Rutas
+app.use("/api/reservas", require("./routes/reservaRoutes"));
 
+// Configuración de Swagger
 swaggerDocs(app);
 
-app.get("/", (req, res) => {
-  res.send("Servidor de Reservas Hoteleras funcionando");
-});
-
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto: ${PORT}`);
-});
+app.listen(port, () => console.log(`Servidor corriendo en el puerto ${port}`));

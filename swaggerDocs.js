@@ -1,7 +1,6 @@
-// swagger.js
-
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const path = require("path");
 
 // Configuración de Swagger
 const swaggerSpec = swaggerJSDoc({
@@ -14,13 +13,13 @@ const swaggerSpec = swaggerJSDoc({
     },
     servers: [
       {
-        url: "http://localhost:3000/api",
+        url: "http://localhost:3000/",
         description: "Servidor local",
       },
     ],
   },
   // Path para los archivos de comentarios
-  apis: ["./routes/*.js"], // Ajusta la ruta según la ubicación de tus archivos de rutas
+  apis: [path.join(__dirname, "./routes/reservaRoutes.js")], // Ajusta la ruta según la ubicación de tus archivos de rutas
 });
 
 const swaggerDocs = (app) => {

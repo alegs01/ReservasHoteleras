@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Identificador único de la reserva"
+    },
+    "hotel": {
+      "type": "string",
+      "description": "Nombre del hotel donde se realizó la reserva"
+    },
+    "fechaEntrada": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha de entrada de la reserva"
+    },
+    "fechaSalida": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha de salida de la reserva"
+    },
+    "tipoHabitacion": {
+      "type": "string",
+      "description": "Tipo de habitación reservada (e.g., Simple, Doble, Suite Familiar)"
+    },
+    "numHuespedes": {
+      "type": "integer",
+      "description": "Número de huéspedes para la reserva"
+    },
+    "estado": {
+      "type": "string",
+      "description": "Estado de la reserva (e.g., Confirmada, Pendiente, Cancelada)"
+    },
+    "nombreHuesped": {
+      "type": "string",
+      "description": "Nombre del huésped que realizó la reserva"
+    },
+    "emailHuesped": {
+      "type": "string",
+      "format": "email",
+      "description": "Correo electrónico del huésped"
+    },
+    "telefonoHuesped": {
+      "type": "string",
+      "pattern": "^[0-9]{3}-[0-9]{4}$",
+      "description": "Número de teléfono del huésped (formato: 555-1234)"
+    }
+  },
+  "required": [
+    "id",
+    "hotel",
+    "fechaEntrada",
+    "fechaSalida",
+    "tipoHabitacion",
+    "numHuespedes",
+    "estado",
+    "nombreHuesped",
+    "emailHuesped",
+    "telefonoHuesped"
+  ],
+  "additionalProperties": false
+}

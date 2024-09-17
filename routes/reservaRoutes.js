@@ -1,17 +1,74 @@
 const express = require("express");
 const router = express.Router();
-const reservaController = require("../controllers/reservaControllerTEMP");
+const reservaController = require("../controllers/reservaController");
 
 /**
- * @openapi
- * tags:
- *   - name: Reservas
- *     description: Operaciones relacionadas con reservas de hotel
+ * @swagger
+ * components:
+ *   schemas:
+ *     Reserva:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: El identificador único de la reserva
+ *         hotel:
+ *           type: string
+ *           description: El nombre del hotel
+ *         fechaEntrada:
+ *           type: string
+ *           format: date
+ *           description: La fecha de entrada
+ *         fechaSalida:
+ *           type: string
+ *           format: date
+ *           description: La fecha de salida
+ *         tipoHabitacion:
+ *           type: string
+ *           description: El tipo de habitación
+ *         numHuespedes:
+ *           type: integer
+ *           description: El número de huéspedes
+ *         estado:
+ *           type: string
+ *           description: El estado de la reserva
+ *         nombreHuesped:
+ *           type: string
+ *           description: El nombre del huésped
+ *         emailHuesped:
+ *           type: string
+ *           format: email
+ *           description: El correo electrónico del huésped
+ *         telefonoHuesped:
+ *           type: string
+ *           description: El teléfono del huésped
+ *       required:
+ *         - id
+ *         - hotel
+ *         - fechaEntrada
+ *         - fechaSalida
+ *         - tipoHabitacion
+ *         - numHuespedes
+ *         - estado
+ *         - nombreHuesped
+ *         - emailHuesped
+ *         - telefonoHuesped
+ *       example:
+ *         id: 1
+ *         hotel: "Hotel Paraíso"
+ *         fechaEntrada: "2024-05-15"
+ *         fechaSalida: "2024-05-18"
+ *         tipoHabitacion: "Doble"
+ *         numHuespedes: 3
+ *         estado: "Confirmada"
+ *         nombreHuesped: "Alejandro Gómez"
+ *         emailHuesped: "alejandro@example.com"
+ *         telefonoHuesped: "555-1234"
  */
 
 /**
- * @openapi
- * /reservas:
+ * @swagger
+ * /api/reservas:
  *   post:
  *     tags:
  *       - Reservas
@@ -22,29 +79,7 @@ const reservaController = require("../controllers/reservaControllerTEMP");
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               fechaEntrada:
- *                 type: string
- *                 format: date
- *               fechaSalida:
- *                 type: string
- *                 format: date
- *               tipoHabitacion:
- *                 type: string
- *               nombreHuesped:
- *                 type: string
- *               emailHuesped:
- *                 type: string
- *               telefonoHuesped:
- *                 type: string
- *             required:
- *               - fechaEntrada
- *               - fechaSalida
- *               - tipoHabitacion
- *               - nombreHuesped
- *               - emailHuesped
- *               - telefonoHuesped
+ *             $ref: '#/components/schemas/Reserva'
  *     responses:
  *       201:
  *         description: Reserva creada exitosamente
@@ -53,35 +88,18 @@ const reservaController = require("../controllers/reservaControllerTEMP");
  *             schema:
  *               type: object
  *               properties:
- *                 message:
+ *                 msg:
  *                   type: string
- *                 reserva:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                     fechaEntrada:
- *                       type: string
- *                       format: date
- *                     fechaSalida:
- *                       type: string
- *                       format: date
- *                     tipoHabitacion:
- *                       type: string
- *                     nombreHuesped:
- *                       type: string
- *                     emailHuesped:
- *                       type: string
- *                     telefonoHuesped:
- *                       type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Reserva'
  *       400:
  *         description: Datos inválidos
  */
-router.post("/reservas", reservaController.crearReserva);
+router.post("/", reservaController.crearReserva);
 
 /**
- * @openapi
- * /reservas:
+ * @swagger
+ * /api/reservas:
  *   get:
  *     tags:
  *       - Reservas
@@ -92,37 +110,15 @@ router.post("/reservas", reservaController.crearReserva);
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 reservas:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                       fechaEntrada:
- *                         type: string
- *                         format: date
- *                       fechaSalida:
- *                         type: string
- *                         format: date
- *                       tipoHabitacion:
- *                         type: string
- *                       nombreHuesped:
- *                         type: string
- *                       emailHuesped:
- *                         type: string
- *                       telefonoHuesped:
- *                         type: string
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Reserva'
  */
-router.get("/reservas", reservaController.obtenerReservas);
+router.get("/", reservaController.obtenerReservas);
 
 /**
- * @openapi
- * /reservas/{id}:
+ * @swagger
+ * /api/reservas/{id}:
  *   get:
  *     tags:
  *       - Reservas
@@ -140,37 +136,15 @@ router.get("/reservas", reservaController.obtenerReservas);
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 reserva:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                     fechaEntrada:
- *                       type: string
- *                       format: date
- *                     fechaSalida:
- *                       type: string
- *                       format: date
- *                     tipoHabitacion:
- *                       type: string
- *                     nombreHuesped:
- *                       type: string
- *                     emailHuesped:
- *                       type: string
- *                     telefonoHuesped:
- *                       type: string
+ *               $ref: '#/components/schemas/Reserva'
  *       404:
  *         description: Reserva no encontrada
  */
-router.get("/reservas/:id", reservaController.obtenerReservaPorId);
+router.get("/:id", reservaController.obtenerReservaPorId);
 
 /**
- * @openapi
- * /reservas/{id}:
+ * @swagger
+ * /api/reservas/{id}:
  *   put:
  *     tags:
  *       - Reservas
@@ -188,22 +162,7 @@ router.get("/reservas/:id", reservaController.obtenerReservaPorId);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               fechaEntrada:
- *                 type: string
- *                 format: date
- *               fechaSalida:
- *                 type: string
- *                 format: date
- *               tipoHabitacion:
- *                 type: string
- *               nombreHuesped:
- *                 type: string
- *               emailHuesped:
- *                 type: string
- *               telefonoHuesped:
- *                 type: string
+ *             $ref: '#/components/schemas/Reserva'
  *     responses:
  *       200:
  *         description: Reserva actualizada
@@ -212,35 +171,18 @@ router.get("/reservas/:id", reservaController.obtenerReservaPorId);
  *             schema:
  *               type: object
  *               properties:
- *                 message:
+ *                 msg:
  *                   type: string
- *                 reserva:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                     fechaEntrada:
- *                       type: string
- *                       format: date
- *                     fechaSalida:
- *                       type: string
- *                       format: date
- *                     tipoHabitacion:
- *                       type: string
- *                     nombreHuesped:
- *                       type: string
- *                     emailHuesped:
- *                       type: string
- *                     telefonoHuesped:
- *                       type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Reserva'
  *       404:
  *         description: Reserva no encontrada
  */
-router.put("/reservas/:id", reservaController.actualizarReserva);
+router.put("/:id", reservaController.actualizarReserva);
 
 /**
- * @openapi
- * /reservas/{id}:
+ * @swagger
+ * /api/reservas/{id}:
  *   delete:
  *     tags:
  *       - Reservas
@@ -260,11 +202,56 @@ router.put("/reservas/:id", reservaController.actualizarReserva);
  *             schema:
  *               type: object
  *               properties:
- *                 message:
+ *                 msg:
  *                   type: string
  *       404:
  *         description: Reserva no encontrada
  */
-router.delete("/reservas/:id", reservaController.eliminarReserva);
+router.delete("/:id", reservaController.eliminarReserva);
+
+/**
+ * @swagger
+ * /api/reservas/search:
+ *    get:
+ *     summary: Search orders with filters
+ *     tags: [Reservas]
+ *     parameters:
+ *       - in: query
+ *         name: hotel
+ *         schema:
+ *           type: string
+ *         description: El nombre del hotel
+ *       - in: query
+ *         name: fechaEntrada
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: La fecha de entrada
+ *       - in: query
+ *         name: numHuespedes
+ *         schema:
+ *           type: integer
+ *         description: El numero de huespedes
+ *       - in: query
+ *         name: estado
+ *         schema:
+ *           type: string
+ *         description: El estado de la reserva
+ *       - in: query
+ *         name: nombreHuesped
+ *         schema:
+ *           type: string
+ *         description: El nombre del huésped
+ *     responses:
+ *       200:
+ *         description: Una lista de reservas que coinciden con los filtros
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Reserva'
+ */
+router.get("/search", reservaController.filter);
 
 module.exports = router;
