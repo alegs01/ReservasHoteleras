@@ -119,32 +119,6 @@ router.get("/", reservaController.obtenerReservas);
 /**
  * @swagger
  * /api/reservas/{id}:
- *   get:
- *     tags:
- *       - Reservas
- *     summary: Obtener una reserva por ID
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID de la reserva
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Reserva encontrada
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Reserva'
- *       404:
- *         description: Reserva no encontrada
- */
-router.get("/:id", reservaController.obtenerReservaPorId);
-
-/**
- * @swagger
- * /api/reservas/{id}:
  *   put:
  *     tags:
  *       - Reservas
@@ -212,46 +186,73 @@ router.delete("/:id", reservaController.eliminarReserva);
 /**
  * @swagger
  * /api/reservas/search:
- *    get:
- *     summary: Search orders with filters
- *     tags: [Reservas]
+ *  get:
+ *    summary: Buscar reservas con filtros
+ *    tags: [Reservas]
+ *    parameters:
+ *      - in: query
+ *        name: hotel
+ *        schema:
+ *          type: string
+ *        description: El nombre del hotel
+ *      - in: query
+ *        name: fechaEntrada
+ *        schema:
+ *          type: string
+ *          format: date
+ *        description: La fecha de entrada de la reserva
+ *      - in: query
+ *        name: fechaSalida
+ *        schema:
+ *          type: string
+ *          format: date
+ *        description: La fecha de salida de la reserva
+ *      - in: query
+ *        name: estado
+ *        schema:
+ *          type: string
+ *        description: El estado de la reserva
+ *      - in: query
+ *        name: tipoHabitacion
+ *        schema:
+ *          type: string
+ *        description: El tipo de habitación
+ *    responses:
+ *      200:
+ *        description: Lista de reservas que coinciden con los filtros
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Reserva'
+ */
+router.get("/search", reservaController.filter);
+
+/**
+ * @swagger
+ * /api/reservas/{id}:
+ *   get:
+ *     tags:
+ *       - Reservas
+ *     summary: Obtener una reserva por ID
  *     parameters:
- *       - in: query
- *         name: hotel
- *         schema:
- *           type: string
- *         description: El nombre del hotel
- *       - in: query
- *         name: fechaEntrada
- *         schema:
- *           type: string
- *           format: date
- *         description: La fecha de entrada
- *       - in: query
- *         name: numHuespedes
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID de la reserva
  *         schema:
  *           type: integer
- *         description: El numero de huespedes
- *       - in: query
- *         name: estado
- *         schema:
- *           type: string
- *         description: El estado de la reserva
- *       - in: query
- *         name: nombreHuesped
- *         schema:
- *           type: string
- *         description: El nombre del huésped
  *     responses:
  *       200:
- *         description: Una lista de reservas que coinciden con los filtros
+ *         description: Reserva encontrada
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Reserva'
+ *               $ref: '#/components/schemas/Reserva'
+ *       404:
+ *         description: Reserva no encontrada
  */
-router.get("/search", reservaController.filter);
+router.get("/:id", reservaController.obtenerReservaPorId);
 
 module.exports = router;
